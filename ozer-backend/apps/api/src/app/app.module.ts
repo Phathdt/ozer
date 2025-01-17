@@ -9,7 +9,7 @@ import { APP_GUARD } from '@nestjs/core'
 import { AuthModule, ClerkAuthGuard, ClerkClientProvider } from '@ozer-backend/auth'
 import { EcomModule } from '@ozer-backend/ecom'
 
-import { ProductController } from '../controllers'
+import { CartController, OrderController, ProductController } from '../controllers'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 
@@ -51,7 +51,7 @@ import { AppService } from './app.service'
     AuthModule,
     EcomModule,
   ],
-  controllers: [AppController, ProductController],
+  controllers: [AppController, ProductController, OrderController, CartController],
   providers: [
     AppService,
     ClerkClientProvider,
