@@ -3,6 +3,7 @@ import './globals.css'
 
 import { Geist, Geist_Mono } from 'next/font/google'
 
+import { ToastProvider } from '@/components/providers/toast-provider'
 import {
   ClerkProvider,
   SignedIn,
@@ -44,6 +45,7 @@ export default function RootLayout({
             <UserButton />
           </SignedIn>
           {children}
+          <ToastProvider />
         </body>
       </html>
     </ClerkProvider>

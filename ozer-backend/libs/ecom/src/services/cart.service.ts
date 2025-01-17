@@ -51,12 +51,16 @@ export class CartService {
   async addItem(userId: string, productId: number, quantity: number) {
     const cart = await this.findUserCart(userId)
 
+    console.log(222222)
     const existingItem = cart.items.find((item) => item.productId === productId)
 
+    console.log(333333)
     if (existingItem) {
+      console.log(44444)
       return this.updateItem(userId, existingItem.id, existingItem.quantity + quantity)
     }
 
+    console.log(111111111)
     return this.db.cart.update({
       where: { userId },
       data: {
