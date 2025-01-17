@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { DatabaseService } from '@ozer-backend/database';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { DatabaseService } from '@ozer-backend/database'
 
 @Injectable()
 export class CartService {
@@ -21,7 +21,7 @@ export class CartService {
           },
         },
       },
-    });
+    })
 
     if (!cart) {
       return this.db.cart.create({
@@ -42,25 +42,19 @@ export class CartService {
             },
           },
         },
-      });
+      })
     }
 
-    return cart;
+    return cart
   }
 
   async addItem(userId: string, productId: number, quantity: number) {
-    const cart = await this.findUserCart(userId);
+    const cart = await this.findUserCart(userId)
 
-    const existingItem = cart.items.find(
-      (item) => item.productId === productId
-    );
+    const existingItem = cart.items.find((item) => item.productId === productId)
 
     if (existingItem) {
-      return this.updateItem(
-        userId,
-        existingItem.id,
-        existingItem.quantity + quantity
-      );
+      return this.updateItem(userId, existingItem.id, existingItem.quantity + quantity)
     }
 
     return this.db.cart.update({
@@ -86,19 +80,19 @@ export class CartService {
           },
         },
       },
-    });
+    })
   }
 
   async updateItem(userId: string, itemId: number, quantity: number) {
-    const cart = await this.findUserCart(userId);
-    const item = cart.items.find((item) => item.id === itemId);
+    const cart = await this.findUserCart(userId)
+    const item = cart.items.find((item) => item.id === itemId)
 
     if (!item) {
-      throw new NotFoundException(`Cart item with ID ${itemId} not found`);
+      throw new NotFoundException(`Cart item with ID ${itemId} not found`)
     }
 
     if (quantity <= 0) {
-      return this.removeItem(userId, itemId);
+      return this.removeItem(userId, itemId)
     }
 
     return this.db.cart.update({
@@ -124,15 +118,15 @@ export class CartService {
           },
         },
       },
-    });
+    })
   }
 
   async removeItem(userId: string, itemId: number) {
-    const cart = await this.findUserCart(userId);
-    const item = cart.items.find((item) => item.id === itemId);
+    const cart = await this.findUserCart(userId)
+    const item = cart.items.find((item) => item.id === itemId)
 
     if (!item) {
-      throw new NotFoundException(`Cart item with ID ${itemId} not found`);
+      throw new NotFoundException(`Cart item with ID ${itemId} not found`)
     }
 
     return this.db.cart.update({
@@ -157,6 +151,6 @@ export class CartService {
           },
         },
       },
-    });
+    })
   }
 }

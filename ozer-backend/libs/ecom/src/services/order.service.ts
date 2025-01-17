@@ -1,5 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { DatabaseService } from '@ozer-backend/database';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { DatabaseService } from '@ozer-backend/database'
 
 @Injectable()
 export class OrderService {
@@ -25,7 +25,7 @@ export class OrderService {
       orderBy: {
         createdAt: 'desc',
       },
-    });
+    })
   }
 
   async findOne(userId: string, orderId: string) {
@@ -48,13 +48,13 @@ export class OrderService {
           },
         },
       },
-    });
+    })
 
     if (!order) {
-      throw new NotFoundException(`Order with ID ${orderId} not found`);
+      throw new NotFoundException(`Order with ID ${orderId} not found`)
     }
 
-    return order;
+    return order
   }
 
   async create(userId: string) {
@@ -67,16 +67,16 @@ export class OrderService {
           },
         },
       },
-    });
+    })
 
     if (!cart || cart.items.length === 0) {
-      throw new NotFoundException('Cart is empty');
+      throw new NotFoundException('Cart is empty')
     }
 
     // Calculate total price
     const total = cart.items.reduce((sum, item) => {
-      return sum + item.product.price * item.quantity;
-    }, 0);
+      return sum + item.product.price * item.quantity
+    }, 0)
 
     const order = await this.db.order.create({
       data: {
@@ -105,7 +105,7 @@ export class OrderService {
           },
         },
       },
-    });
+    })
 
     // Clear cart after order creation
     await this.db.cart.update({
@@ -115,8 +115,8 @@ export class OrderService {
           deleteMany: {},
         },
       },
-    });
+    })
 
-    return order;
+    return order
   }
 }

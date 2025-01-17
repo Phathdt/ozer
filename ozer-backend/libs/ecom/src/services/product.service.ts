@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { DatabaseService } from '@ozer-backend/database';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { DatabaseService } from '@ozer-backend/database'
 
 @Injectable()
 export class ProductService {
   constructor(private readonly db: DatabaseService) {}
 
   async findAll(page: number, limit: number) {
-    const skip = (page - 1) * limit;
+    const skip = (page - 1) * limit
     const [products, total] = await Promise.all([
       this.db.product.findMany({
         skip,
@@ -20,7 +20,7 @@ export class ProductService {
         },
       }),
       this.db.product.count(),
-    ]);
+    ])
 
     return {
       products,
@@ -30,7 +30,7 @@ export class ProductService {
         limit,
         totalPages: Math.ceil(total / limit),
       },
-    };
+    }
   }
 
   async findOne(id: number) {
@@ -43,12 +43,12 @@ export class ProductService {
         price: true,
         createdAt: true,
       },
-    });
+    })
 
     if (!product) {
-      throw new NotFoundException(`Product with ID ${id} not found`);
+      throw new NotFoundException(`Product with ID ${id} not found`)
     }
 
-    return product;
+    return product
   }
 }
