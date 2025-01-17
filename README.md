@@ -13,7 +13,7 @@ A modern e-commerce frontend application built with Next.js 14, Clerk Authentica
 
 ## Tech Stack
 
-- **Framework**: Next.js 14 (App Router)
+- **Framework**: Next.js 15 (App Router)
 - **Authentication**: Clerk
 - **Styling**: Tailwind CSS
 - **UI Components**: shadcn/ui
