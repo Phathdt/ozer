@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ozer-backend/database": ["libs/database/src/index.ts"]
+      "@ozer-backend/database": ["libs/database/src/index.ts"],
+      "@ozer-backend/ecom": ["libs/ecom/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
