@@ -11,6 +11,11 @@ async function bootstrap() {
     cors: true,
   })
 
+  app.enableCors({
+    origin: '*',
+    credentials: true,
+  })
+
   app.useLogger(app.get(PinoLogger))
 
   await app.listen(4000, () => {
