@@ -1,0 +1,74 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = []
+}
+
+model Product {
+  id          Int         @id @default(autoincrement()) @map("id")
+  name        String      @map("name")
+  description String?     @map("description")
+  price       Float       @map("price")
+  image       String?     @map("image")
+  stock       Int         @default(0) @map("stock")
+  cartItems   CartItem[]
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+
+  @@map("products")
+}
+
+model Cart {
+  id        Int        @id @default(autoincrement()) @map("id")
+  clerkId   String     @unique @map("clerk_id") // Clerk user ID
+  items     CartItem[]
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+
+  @@map("carts")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement()) @map("id")
+  cartId    Int      @map("cart_id")
+  productId Int      @map("product_id")
+  quantity  Int      @default(1) @map("quantity")
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([cartId, productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id        Int         @id @default(autoincrement()) @map("id")
+  clerkId   String      @map("clerk_id")
+  status    String      @default("pending") @map("status")
+  total     Float       @map("total")
+  items     OrderItem[]
+  createdAt DateTime    @default(now()) @map("created_at")
+  updatedAt DateTime    @updatedAt @map("updated_at")
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement()) @map("id")
+  orderId   Int      @map("order_id")
+  productId Int      @map("product_id")
+  quantity  Int      @map("quantity")
+  price     Float    @map("price")
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("order_items")
+}
